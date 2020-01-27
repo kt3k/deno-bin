@@ -23,7 +23,9 @@ function platform() {
 
 function main() {
   const dlUrl = `https://github.com/denoland/deno/releases/download/v${pkg.version}/deno_${platform()}_x64.gz`
-  const file = fs.createWriteStream(path.join(__dirname, 'bin', 'deno'))
+  const file = fs.createWriteStream(path.join(__dirname, 'bin', 'deno'), {
+    mode: 0o755
+  })
   // 1. Download Deno binary from github release page
   https.get(dlUrl, res => {
     // 2. Put it at ./bin/deno
