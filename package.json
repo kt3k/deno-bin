@@ -4,7 +4,7 @@
   "description": "CLI wrapper for Deno, a secure runtime for JavaScript and TypeScript",
   "main": "index.js",
   "bin": {
-    "deno": ",./bin/deno",
+    "deno": "./bin/deno",
     "deno-bin": "./bin/deno"
   },
   "scripts": {
