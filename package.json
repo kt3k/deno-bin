@@ -1,0 +1,29 @@
+{
+  "name": "deno-bin",
+  "version": "0.31.0",
+  "description": "CLI wrapper for Deno, a secure runtime for JavaScript and TypeScript",
+  "main": "index.js",
+  "bin": {
+    "deno": ",./bin/deno",
+    "deno-bin": "./bin/deno"
+  },
+  "scripts": {
+    "install": "node install.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kt3k/deno-bin.git"
+  },
+  "keywords": [
+    "deno"
+  ],
+  "author": "Yoshiya Hinosawa",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kt3k/deno-bin/issues"
+  },
+  "homepage": "https://github.com/kt3k/deno-bin#readme",
+  "dependencies": {
+    "follow-redirects": "^1.10.0"
+  }
+}
