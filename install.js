@@ -22,7 +22,9 @@ function platform() {
 }
 
 function main() {
-  const dlUrl = `https://github.com/denoland/deno/releases/download/v${pkg.version}/deno_${platform()}_x64.gz`
+  const dlUrl = `https://github.com/denoland/deno/releases/download/v${
+    pkg.version
+  }/deno_${platform()}_x64.gz`
   const file = fs.createWriteStream(path.join(__dirname, 'bin', 'deno'), {
     mode: 0o755
   })

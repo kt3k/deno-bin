@@ -14,9 +14,7 @@
     "type": "git",
     "url": "git+https://github.com/kt3k/deno-bin.git"
   },
-  "keywords": [
-    "deno"
-  ],
+  "keywords": ["deno"],
   "author": "Yoshiya Hinosawa",
   "license": "MIT",
   "bugs": {

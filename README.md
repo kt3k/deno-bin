@@ -9,11 +9,13 @@ You can use [deno][] in run-scripts of package.json, or as an npx command like `
 Use with `npx`:
 
 To execute an url:
+
 ```
 npx deno-bin https://deno.land/std/examples/welcome.ts
 ```
 
 To show the help message:
+
 ```
 npx deno-bin --help
 ```
@@ -35,6 +37,7 @@ yarn add --dev deno-bin
 Then use `deno` command in your "scripts" section of `package.json`.
 
 package.json:
+
 ```json
 {
   ...
@@ -51,4 +54,4 @@ Then hit the command `npm run foo` which invokes deno with `some-script.ts`. Thi
 
 MIT
 
-[Deno]: https://deno.land
+[deno]: https://deno.land
