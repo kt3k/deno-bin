@@ -1,40 +1,48 @@
 # deno-bin
 
-> CLI wrapper for [Deno][], a secure runtime for JavaScript and TypeScript
+> CLI wrapper for [Deno][]
 
-You can use [deno][] in run-scripts of package.json, or as an npx command like `npx deno-bin` without installing deno globally.
+You can use [deno][] via npm or npx.
+
+Note: This module installs deno at `node_modules/deno-bin/bin/deno`, and you can use it via npx or npm's run-script.
 
 # Usage 1
 
-Use with `npx`:
+`npx deno-bin` works like `deno` executable. For example, you can run a deno script `https://deno.land/std/examples/welcome.ts` like the below:
 
-To execute an url:
-
+```shellsession
+$ npx deno-bin run https://deno.land/std/examples/welcome.ts
+Welcome to Deno!
 ```
-npx deno-bin https://deno.land/std/examples/welcome.ts
+
+You can also start repl:
+
+```shellsession
+$ npx deno-bin
+Deno 1.1.0
+exit using ctrl+d or close()
+>
 ```
 
-To show the help message:
-
+You can also use deno tools:
 ```
-npx deno-bin --help
+npx deno-bin fmt             # Formats script
+npx deno-bin lint --unstable # Checks lint rules
 ```
 
 # Usage 2
 
-Use in npm's `run-script`.
+Use in `scripts` in package.json.
 
-First install `deno-bin` in your package.json:
+First install `deno-bin`:
 
-```
+```sh
 npm i --save-dev deno-bin
-
-# or
-
-yarn add --dev deno-bin
 ```
 
-Then use `deno` command in your "scripts" section of `package.json`.
+(Note: This installs `deno` executable at `node_modules/deno-bin/bin/deno` internally.)
+
+Then use `deno` in your "scripts".
 
 package.json:
 
@@ -42,13 +50,13 @@ package.json:
 {
   ...
   "scripts": {
-    "foo": "deno some-script.ts"
+    "foo": "deno run some-script.ts"
   },
   ...
 }
 ```
 
-Then hit the command `npm run foo` which invokes deno with `some-script.ts`. This means you can use deno in the development of your node.js module without installing deno globally.
+Then hit the command `npm run foo`, and it executes `deno run some-script.ts` with locally installed deno.
 
 # License
 
