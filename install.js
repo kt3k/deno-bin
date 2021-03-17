@@ -1,19 +1,25 @@
 const fs = require('fs')
+const os = require('os')
 const path = require('path')
 const { https } = require('follow-redirects')
-const zlib = require('zlib')
 const pkg = require('./package')
+const AdmZip = require('adm-zip')
 
-function platform() {
+function filename() {
   switch (process.platform) {
     case 'win32': {
-      return 'win'
+      return 'deno-x86_64-pc-windows-msvc.zip'
     }
     case 'darwin': {
-      return 'osx'
+      if (process.arch === 'x64') {
+        return 'deno-x86_64-apple-darwin.zip'
+      } else if (process.arch === 'arm64') {
+        return 'deno-aarch64-apple-darwin.zip'
+      }
+      throw new Error(`Not supported architecture: ${process.arch}`)
     }
     case 'linux': {
-      return 'linux'
+      return 'deno-x86_64-unknown-linux-gnu.zip'
     }
     default: {
       throw new Error(`Not a supported platform: ${process.platform}`)
@@ -24,14 +30,18 @@ function platform() {
 function main() {
   const dlUrl = `https://github.com/denoland/deno/releases/download/v${
     pkg.version
-  }/deno_${platform()}_x64.gz`
-  const file = fs.createWriteStream(path.join(__dirname, 'bin', 'deno'), {
-    mode: 0o755
-  })
-  // 1. Download Deno binary from github release page
+  }/${filename()}`
+  //console.log(dlUrl);
+  const binPath = path.join(__dirname, 'bin')
+  const zipPath = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'deno-bin')), 'deno.zip');
+  // 1. Download Deno binary zip from github release page
   https.get(dlUrl, res => {
-    // 2. Put it at ./bin/deno
-    res.pipe(zlib.createGunzip()).pipe(file)
+    // 2. Saves it in temp dir
+    res.pipe(fs.createWriteStream(zipPath)).on('close', () => {
+      // 3. Extracts `deno` entry to bin path.
+      new AdmZip(zipPath).extractEntryTo('deno', binPath, true, true);
+      fs.unlinkSync(zipPath)
+    })
   })
 }
 
