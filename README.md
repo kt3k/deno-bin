@@ -6,7 +6,7 @@ You can use [deno][] via npm or npx.
 
 Note: This module installs deno at `node_modules/deno-bin/bin/deno`, and you can use it via npx or npm's run-script.
 
-# Usage 1
+# Usage via npx
 
 `npx deno-bin` works like `deno` executable. For example, you can run a deno script `https://deno.land/std/examples/welcome.ts` like the below:
 
@@ -30,7 +30,7 @@ npx deno-bin fmt             # Formats script
 npx deno-bin lint --unstable # Checks lint rules
 ```
 
-# Usage 2
+# Usage via run-scripts
 
 Use in `scripts` in package.json.
 
@@ -58,8 +58,39 @@ package.json:
 
 Then hit the command `npm run foo`, and it executes `deno run some-script.ts` with locally installed deno.
 
+# Ideas of usages
+
+## Use `deno lint` in your node.js project
+
+You can format your scripts with `deno lint` which is faster than prettier. (`deno lint` uses [dprint][] internally, which is mostly compatible with prettier and is implemented in Rust.)
+
+```json
+{
+  "scripts": {
+    "fmt": "deno fmt src"
+  }
+}
+```
+
+## Run some utility scripts
+
+When you need some utility scripts in your repository, you can use deno for it. Because Deno can run typescript out of the box, you can skip any settings about typescript.
+
+```json
+{
+  "scripts": {
+    "task": "deno run ./tools/some-task.ts"
+  }
+}
+```
+
+# About the version of deno
+
+`deno-bin` downloads the same version of `deno` executable as its own version number. For example, if you install `deno-bin@1.8.1`, you'll get deno `v1.8.1`.
+
 # License
 
 MIT
 
 [deno]: https://deno.land
+[dprint]: https://dprint.dev/
