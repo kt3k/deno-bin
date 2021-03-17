@@ -1,4 +1,6 @@
-version: 1.1.0
+---
+version: 1.7.0
+commit: Bump to version v%.%.%
 files:
   README.md: v%.%.%
   package.json: '"version": "%.%.%"'
