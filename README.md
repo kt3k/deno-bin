@@ -1,6 +1,6 @@
 # deno-bin v1.8.1
 
-> CLI wrapper for [Deno][]
+> Use [Deno][] via npm
 
 You can use [deno][] via npm or npx.
 
