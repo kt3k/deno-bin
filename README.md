@@ -1,4 +1,4 @@
-# deno-bin v1.7.3
+# deno-bin v1.7.4
 
 > CLI wrapper for [Deno][]
 
