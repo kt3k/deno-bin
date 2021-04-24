@@ -29,7 +29,7 @@ function filename() {
 
 function main() {
   const dlUrl =
-    `https://github.com/denoland/deno/releases/download/v1.9.1/${filename()}`;
+    `https://github.com/denoland/deno/releases/download/v1.9.2/${filename()}`;
   //console.log(dlUrl);
   const binPath = path.join(__dirname, "bin");
   const zipPath = path.join(
