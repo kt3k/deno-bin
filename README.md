@@ -1,4 +1,4 @@
-# deno-bin v1.9.0
+# deno-bin v1.9.1
 
 > Use [Deno][] via npm
 
