@@ -26,6 +26,16 @@ function filename() {
     }
   }
 }
+function executableFilename() {
+  switch (process.platform) {
+    case "win32": {
+      return "deno.exe";
+    }
+    default: {
+      return "deno";
+    }
+  }
+}
 
 function main() {
   const dlUrl =
@@ -41,7 +51,7 @@ function main() {
     // 2. Saves it in temp dir
     res.pipe(fs.createWriteStream(zipPath)).on("close", () => {
       // 3. Extracts `deno` entry to bin path.
-      new AdmZip(zipPath).extractEntryTo("deno", binPath, true, true);
+      new AdmZip(zipPath).extractEntryTo(executableFilename(), binPath, true, true);
       fs.unlinkSync(zipPath);
     });
   });
