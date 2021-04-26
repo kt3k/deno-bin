@@ -92,5 +92,9 @@ When you need some utility scripts in your repository, you can use deno for it. 
 
 MIT
 
+# History
+
+- 2021-04-26 Windows support [#4](https://github.com/kt3k/deno-bin/pull/4)
+
 [deno]: https://deno.land
 [dprint]: https://dprint.dev/
