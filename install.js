@@ -39,7 +39,7 @@ function executableFilename() {
 
 function main() {
   const dlUrl =
-    `https://github.com/denoland/deno/releases/download/v1.14.0/${filename()}`;
+    `https://github.com/denoland/deno/releases/download/v1.14.1/${filename()}`;
   //console.log(dlUrl);
   const binPath = path.join(__dirname, "bin");
   const zipPath = path.join(
