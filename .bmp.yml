@@ -1,4 +1,4 @@
-version: 1.14.3
+version: 1.15.0
 commit: Bump to version v%.%.%
 files:
   README.md: v%.%.%
