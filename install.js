@@ -50,8 +50,12 @@ function main() {
   https.get(dlUrl, (res) => {
     // 2. Saves it in temp dir
     res.pipe(fs.createWriteStream(zipPath)).on("close", () => {
+      const filename = executableFilename();
       // 3. Extracts `deno` entry to bin path.
-      new AdmZip(zipPath).extractEntryTo(executableFilename(), binPath, true, true);
+      new AdmZip(zipPath).extractEntryTo(filename, binPath, true, true);
+      // 4. Changes the file permission
+      fs.chmodSync(path.join(binPath, filename), 0o755);
+      // 5. Removes the zip file
       fs.unlinkSync(zipPath);
     });
   });
