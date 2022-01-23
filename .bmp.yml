@@ -1,6 +1,0 @@
-version: 1.18.0
-commit: Bump to version v%.%.%
-files:
-  README.md: v%.%.%
-  package.json: '"version": "%.%.%"'
-  install.js: /v%.%.%/
