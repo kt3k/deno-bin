@@ -1,4 +1,4 @@
-# deno-bin
+# deno-bin ![npm](https://img.shields.io/npm/v/deno-bin?color=green)
 
 > Use [Deno][] via npm
 
