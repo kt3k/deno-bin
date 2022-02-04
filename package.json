@@ -1,6 +1,6 @@
 {
   "name": "deno-bin",
-  "version": "1.18.1",
+  "version": "1.18.2",
   "description": "CLI wrapper for Deno, a secure runtime for JavaScript and TypeScript",
   "main": "index.js",
   "files": [
