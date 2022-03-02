@@ -1,0 +1,2 @@
+# format on staging
+*.js	filter=deno-fmt

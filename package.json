@@ -12,6 +12,7 @@
     "deno-bin": "./bin/deno"
   },
   "scripts": {
+    "postinstall": "git config filter.deno-fmt.clean \"$PWD/bin/deno fmt -\" || echo Failed to set up deno-fmt git filter",
     "install": "node install.js"
   },
   "repository": {
