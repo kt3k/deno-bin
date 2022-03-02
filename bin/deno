@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+{
+  node "$(dirname "$0")/../install.js"
+  exec "$0" "$@"
+}
