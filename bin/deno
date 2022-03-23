@@ -1,6 +1,8 @@
 #!/bin/sh
 set -eu
 {
-  node "$(dirname "$0")/../install.js"
+  # MacOS supposedly lacks `realpath`
+  alias realpath="node -p 'fs.realpathSync(process.argv[1])'"
+  node "$(dirname "$(realpath "$0")")/../install.js"
   exec "$0" "$@"
 }
