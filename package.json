@@ -8,8 +8,8 @@
     "bin"
   ],
   "bin": {
-    "deno": "./bin/deno",
-    "deno-bin": "./bin/deno"
+    "deno": "./bin/deno.js",
+    "deno-bin": "./bin/deno.js"
   },
   "scripts": {
     "install": "node install.js"
