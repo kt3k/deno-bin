@@ -38,27 +38,36 @@ function executableFilename() {
 }
 
 function main() {
-  const dlUrl =
-    `https://github.com/denoland/deno/releases/download/v${pkg.version}/${filename()}`;
-  //console.log(dlUrl);
-  const binPath = path.join(__dirname, "bin");
-  const zipPath = path.join(
-    fs.mkdtempSync(path.join(os.tmpdir(), "deno-bin")),
-    "deno.zip",
-  );
-  // 1. Download Deno binary zip from github release page
-  https.get(dlUrl, (res) => {
-    // 2. Saves it in temp dir
-    res.pipe(fs.createWriteStream(zipPath)).on("close", () => {
-      const filename = executableFilename();
-      // 3. Extracts `deno` entry to bin path.
-      new AdmZip(zipPath).extractEntryTo(filename, binPath, true, true);
-      // 4. Changes the file permission
-      fs.chmodSync(path.join(binPath, filename), 0o755);
-      // 5. Removes the zip file
-      fs.unlinkSync(zipPath);
+  return new Promise(resolve => {
+
+    const dlUrl =
+      `https://github.com/denoland/deno/releases/download/v${pkg.version}/${filename()}`;
+    //console.log(dlUrl);
+    const binPath = path.join(__dirname, "bin");
+    const zipPath = path.join(
+      fs.mkdtempSync(path.join(os.tmpdir(), "deno-bin")),
+      "deno.zip",
+    );
+    const denoBin = path.join(binPath, executableFilename());
+    
+    if (fs.existsSync(denoBin)) resolve(denoBin);
+    
+    // 1. Download Deno binary zip from github release page
+    https.get(dlUrl, (res) => {
+      // 2. Saves it in temp dir
+      res.pipe(fs.createWriteStream(zipPath)).on("close", () => {
+        const filename = executableFilename();
+        // 3. Extracts `deno` entry to bin path.
+        new AdmZip(zipPath).extractEntryTo(filename, binPath, true, true);
+        // 4. Changes the file permission
+        if (process.platform !== "win32")
+          fs.chmodSync(path.join(binPath, filename), 0o755);
+        // 5. Removes the zip file
+        fs.unlinkSync(zipPath);
+        resolve(denoBin);
+      });
     });
   });
 }
 
-main();
+module.exports = main();
