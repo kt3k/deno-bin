@@ -8,7 +8,7 @@
 
   let executablePath = path.join(__dirname, executableFilename);
 
-  if (!fs.existsSync(executablePath)) executablePath = await require("./install");
+  if (!fs.existsSync(executablePath)) await require("../install.js");
 
   const p = chile_process.spawnSync(executablePath, process.argv.slice(2), {
     cwd: process.cwd(),
