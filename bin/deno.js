@@ -16,7 +16,7 @@
     shell: false
   });
 
-  process.exitCode =p.status;
+  process.exitCode = p.status;
   
   if (p.error)
     throw new Error(p.error);
