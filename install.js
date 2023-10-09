@@ -1,8 +1,8 @@
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
-const { https } = require("follow-redirects");
-const pkg = require("./package");
+const pkg = require("./package.json");
+const stream = require("stream/promises");
 const AdmZip = require("adm-zip");
 
 function filename() {
@@ -37,37 +37,33 @@ function executableFilename() {
   }
 }
 
-function main() {
-  return new Promise(resolve => {
+async function main() {
+  const dlUrl =
+    `https://github.com/denoland/deno/releases/download/v${pkg.version}/${filename()}`;
+  const binPath = path.join(__dirname, "bin");
+  const zipPath = path.join(
+    fs.mkdtempSync(path.join(os.tmpdir(), "deno-bin")),
+    "deno.zip",
+  );
+  const denoBin = path.join(binPath, executableFilename());
 
-    const dlUrl =
-      `https://github.com/denoland/deno/releases/download/v${pkg.version}/${filename()}`;
-    //console.log(dlUrl);
-    const binPath = path.join(__dirname, "bin");
-    const zipPath = path.join(
-      fs.mkdtempSync(path.join(os.tmpdir(), "deno-bin")),
-      "deno.zip",
-    );
-    const denoBin = path.join(binPath, executableFilename());
-    
-    if (fs.existsSync(denoBin)) resolve(denoBin);
-    
-    // 1. Download Deno binary zip from github release page
-    https.get(dlUrl, (res) => {
-      // 2. Saves it in temp dir
-      res.pipe(fs.createWriteStream(zipPath)).on("close", () => {
-        const filename = executableFilename();
-        // 3. Extracts `deno` entry to bin path.
-        new AdmZip(zipPath).extractEntryTo(filename, binPath, true, true);
-        // 4. Changes the file permission
-        if (process.platform !== "win32")
-          fs.chmodSync(path.join(binPath, filename), 0o755);
-        // 5. Removes the zip file
-        fs.unlinkSync(zipPath);
-        resolve(denoBin);
-      });
-    });
-  });
+  try {
+    await fs.promises.access(denoBin);
+  } catch {
+    // 1. Downloads Deno binary zip from github release page
+    // TODO: handle errors
+    const response = await fetch(dlUrl);
+    // 2. Saves it in temp dir
+    // TODO: avoid
+    await stream.pipeline(response.body, fs.createWriteStream(zipPath));
+    // 3. Extracts `deno` entry to bin path.
+    new AdmZip(zipPath).extractEntryTo(executableFilename(), binPath, true, true);
+    // 4. Changes the file permission
+    await fs.promises.chmod(denoBin, 0o755);
+    // 5. Removes the zip file
+    fs.unlinkSync(zipPath);
+  }
+  return denoBin;
 }
 
 module.exports = main();
