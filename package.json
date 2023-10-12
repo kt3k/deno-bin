@@ -28,7 +28,6 @@
   },
   "homepage": "https://github.com/kt3k/deno-bin#readme",
   "dependencies": {
-    "adm-zip": "^0.5.4",
-    "follow-redirects": "^1.10.0"
+    "adm-zip": "^0.5.4"
   }
 }
