@@ -1,8 +1,7 @@
+// @ts-check
 const fs = require("fs");
-const os = require("os");
 const path = require("path");
 const pkg = require("./package.json");
-const stream = require("stream/promises");
 const AdmZip = require("adm-zip");
 
 function filename() {
@@ -41,10 +40,6 @@ async function main() {
   const dlUrl =
     `https://github.com/denoland/deno/releases/download/v${pkg.version}/${filename()}`;
   const binPath = path.join(__dirname, "bin");
-  const zipPath = path.join(
-    fs.mkdtempSync(path.join(os.tmpdir(), "deno-bin")),
-    "deno.zip",
-  );
   const denoBin = path.join(binPath, executableFilename());
 
   try {
@@ -53,15 +48,12 @@ async function main() {
     // 1. Downloads Deno binary zip from github release page
     // TODO: handle errors
     const response = await fetch(dlUrl);
-    // 2. Saves it in temp dir
-    // TODO: avoid
-    await stream.pipeline(response.body, fs.createWriteStream(zipPath));
+    // 2. Stores it in memory
+    const zip = Buffer.from(await response.arrayBuffer());
     // 3. Extracts `deno` entry to bin path.
-    new AdmZip(zipPath).extractEntryTo(executableFilename(), binPath, true, true);
+    new AdmZip(zip).extractEntryTo(executableFilename(), binPath, true, true);
     // 4. Changes the file permission
     await fs.promises.chmod(denoBin, 0o755);
-    // 5. Removes the zip file
-    fs.unlinkSync(zipPath);
   }
   return denoBin;
 }
