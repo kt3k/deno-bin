@@ -1,3 +1,6 @@
+> [!CAUTION]
+> This project is now deprecated. Use https://www.npmjs.com/package/deno instead.
+
 # deno-bin ![npm](https://img.shields.io/npm/v/deno-bin?color=green)
 
 > Use [Deno][] via npm
